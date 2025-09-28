@@ -1071,14 +1071,18 @@ app.get(
       const { chainId, walletAddress } = req.params;
       
       console.log(`💰 Fetching balance for ${walletAddress} on chain ${chainId}`);
-      
-      const balanceData = await fusionService.getBalances(chainId, walletAddress);
-      
+
+      // Ensure chainId and walletAddress are strings
+      const balanceData = await fusionService.getBalances(
+        String(chainId),
+        String(walletAddress)
+      );
+
       res.json({
         success: true,
         data: balanceData,
-        walletAddress,
-        chainId: parseInt(chainId),
+        walletAddress: String(walletAddress),
+        chainId: parseInt(String(chainId)),
       });
     } catch (error: any) {
       console.error("❌ Balance fetch error:", error);
